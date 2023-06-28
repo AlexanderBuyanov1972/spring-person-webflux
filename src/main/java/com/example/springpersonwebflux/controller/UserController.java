@@ -10,40 +10,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springpersonwebflux.entities.Person;
-import com.example.springpersonwebflux.service.IServicePerson;
+import com.example.springpersonwebflux.entities.UserEntity;
+import com.example.springpersonwebflux.service.IServiceUser;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/person")
-public class PersonController {
+@RequestMapping("/auth")
+public class UserController {
     @Autowired
-    private IServicePerson servicePerson;
+    private IServiceUser serviceUser;
 
     @PostMapping
-    public Mono<Person> create(@RequestBody Person person) {
-        return servicePerson.createPerson(person);
+    public Mono<UserEntity> create(@RequestBody UserEntity user) {
+        return serviceUser.createUser(user);
     }
 
     @PutMapping
-    public Mono<Person> update(@RequestBody Person person) {
-        return servicePerson.updatePerson(person);
+    public Mono<UserEntity> update(@RequestBody UserEntity user) {
+        return serviceUser.updateUser(user);
     }
 
     @GetMapping("/{id}")
-    public Mono<Person> getPerson(@PathVariable String id) {
-        return servicePerson.getPerson(id);
+    public Mono<UserEntity> getPerson(@PathVariable Long id) {
+        return serviceUser.getUser(id);
     }
 
     @DeleteMapping("/{id}")
-    public Mono<Person> deletePerson(@PathVariable String id) {
-        return servicePerson.deletePerson(id);
+    public Mono<UserEntity> deletePerson(@PathVariable Long id) {
+        return serviceUser.deleteUser(id);
     }
 
     @GetMapping("/all")
-    public Flux<Person> getAllEmployees() {
-        return servicePerson.getAllPerson();
+    public Flux<UserEntity> getAllEmployees() {
+        return serviceUser.getAllUser();
     }
 }

@@ -2,7 +2,7 @@ package com.example.springpersonwebflux.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.security.web.server.csrf.CsrfToken;
@@ -14,7 +14,8 @@ import reactor.core.publisher.Mono;
 
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Configuration
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
@@ -31,12 +32,26 @@ public class WebSecurityConfig {
                 http.csrf((csrf) -> csrf
                                 .csrfTokenRepository(tokenRepository)
                                 .csrfTokenRequestHandler(requestHandler));
+
                 http.authorizeExchange(exchange -> exchange
-                                .pathMatchers(HttpMethod.POST, "/person").permitAll()
-                                .pathMatchers(HttpMethod.PUT, "/person").permitAll()
-                                .pathMatchers(HttpMethod.GET, "/person/**").permitAll()
-                                .pathMatchers(HttpMethod.DELETE, "/person/**")
-                                .permitAll());
+                                .pathMatchers( "/auth","/auth/**").permitAll()
+                                   .anyExchange()
+                                .authenticated())
+                                .exceptionHandling(handling -> handling
+                                                .authenticationEntryPoint((swe, err) -> {
+                                                        log.error("In SequrityWebFilterChain - authorized error",
+                                                                        err.getMessage());
+                                                        return Mono.fromRunnable(
+                                                                        () -> swe.getResponse().setStatusCode(
+                                                                                        HttpStatus.UNAUTHORIZED));
+                                                })
+                                                .accessDeniedHandler((swe, err) -> {
+                                                        log.error("In SequrityWebFilterChain - access denied",
+                                                                        err.getMessage());
+                                                        return Mono.fromRunnable(
+                                                                        () -> swe.getResponse().setStatusCode(
+                                                                                        HttpStatus.FORBIDDEN));
+                                                }));
 
                 return http.build();
         }

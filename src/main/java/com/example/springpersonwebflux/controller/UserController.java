@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springpersonwebflux.entities.UserEntity;
-import com.example.springpersonwebflux.service.IServiceUser;
+import com.example.springpersonwebflux.service.IUserService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,30 +20,30 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/auth")
 public class UserController {
     @Autowired
-    private IServiceUser serviceUser;
+    private IUserService iUserService;
 
     @PostMapping
     public Mono<UserEntity> create(@RequestBody UserEntity user) {
-        return serviceUser.createUser(user);
+        return iUserService.createUser(user);
     }
 
     @PutMapping
     public Mono<UserEntity> update(@RequestBody UserEntity user) {
-        return serviceUser.updateUser(user);
+        return iUserService.updateUser(user);
     }
 
     @GetMapping("/{id}")
     public Mono<UserEntity> getPerson(@PathVariable Long id) {
-        return serviceUser.getUser(id);
+        return iUserService.getUser(id);
     }
 
     @DeleteMapping("/{id}")
     public Mono<UserEntity> deletePerson(@PathVariable Long id) {
-        return serviceUser.deleteUser(id);
+        return iUserService.deleteUser(id);
     }
 
     @GetMapping("/all")
     public Flux<UserEntity> getAllEmployees() {
-        return serviceUser.getAllUser();
+        return iUserService.getAllUser();
     }
 }

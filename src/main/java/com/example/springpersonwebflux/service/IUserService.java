@@ -5,7 +5,7 @@ import com.example.springpersonwebflux.entities.UserEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface IServiceUser {
+public interface IUserService {
     Mono<UserEntity> createUser(UserEntity user);
 
     Mono<UserEntity> updateUser(UserEntity user);

@@ -12,3 +12,13 @@ spring:
     user: postgres
     password: root
     baselineOnMigrate: true
+
+jwt:
+  password:
+    encoder:
+      secret: veryBigSecret_256
+      iteration: 64
+      keyLength: 256
+  secret: 112365898774sed4556effgtg9855fggg4hhu4ui
+  expiration: 3600
+  issuer: proselyte

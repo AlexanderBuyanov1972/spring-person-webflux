@@ -49,23 +49,23 @@ public class WebSecurityConfig {
                                 .pathMatchers( "/auth","/auth/**").permitAll()
                                    .anyExchange()
                                 .authenticated())
-                                // .exceptionHandling(handling -> handling
-                                //                 .authenticationEntryPoint((swe, err) -> {
-                                //                         log.error("In SequrityWebFilterChain - authorized error",
-                                //                                         err.getMessage());
-                                //                         return Mono.fromRunnable(
-                                //                                         () -> swe.getResponse().setStatusCode(
-                                //                                                         HttpStatus.UNAUTHORIZED));
-                                //                 })
-                                //                 .accessDeniedHandler((swe, err) -> {
-                                //                         log.error("In SequrityWebFilterChain - access denied",
-                                //                                         err.getMessage());
-                                //                         return Mono.fromRunnable(
-                                //                                         () -> swe.getResponse().setStatusCode(
-                                //                                                         HttpStatus.FORBIDDEN));
-                                //                 }))
-                                                // .addFilterAfter(bearerAuthenticationFilter(authenticationManager),
-                                                // SecurityWebFiltersOrder.AUTHENTICATION)
+                                .exceptionHandling(handling -> handling
+                                                .authenticationEntryPoint((swe, err) -> {
+                                                        log.error("In SequrityWebFilterChain - authorized error",
+                                                                        err.getMessage());
+                                                        return Mono.fromRunnable(
+                                                                        () -> swe.getResponse().setStatusCode(
+                                                                                        HttpStatus.UNAUTHORIZED));
+                                                })
+                                                .accessDeniedHandler((swe, err) -> {
+                                                        log.error("In SequrityWebFilterChain - access denied",
+                                                                        err.getMessage());
+                                                        return Mono.fromRunnable(
+                                                                        () -> swe.getResponse().setStatusCode(
+                                                                                        HttpStatus.FORBIDDEN));
+                                                }))
+                                                .addFilterAfter(bearerAuthenticationFilter(authenticationManager),
+                                                SecurityWebFiltersOrder.AUTHENTICATION)
                                                 ;
 
                 return http.build();

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class Pbkdf2Encoder implements PasswordEncoder {
     @Value("${jwt.password.encoder.secret}")
     private String secret;
-    @Value("${jwt.password.encoder.itaration}")
+    @Value("${jwt.password.encoder.iteration}")
     private Integer iteration;
     @Value("${jwt.password.encoder.keyLength}")
     private Integer keyLength;

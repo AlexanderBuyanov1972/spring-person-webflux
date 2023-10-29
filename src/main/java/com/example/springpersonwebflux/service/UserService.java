@@ -20,7 +20,6 @@ import reactor.core.publisher.Mono;
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     public Mono<UserEntity> registerUser(UserEntity userEntity) {

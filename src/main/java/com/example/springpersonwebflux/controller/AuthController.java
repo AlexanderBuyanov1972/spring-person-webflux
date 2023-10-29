@@ -21,8 +21,8 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
-public class AuthRestControllerV1 {
+@RequestMapping("/auth")
+public class AuthController {
 
     private final SecurityService securityService;
     private final UserService userService;
@@ -30,6 +30,7 @@ public class AuthRestControllerV1 {
 
     @PostMapping("/register")
     public Mono<UserDto> registration(@RequestBody UserDto userDto) {
+        System.out.println("/register");
         UserEntity userEntity = userMapper.map(userDto);
         return userService.registerUser(userEntity)
                 .map(userMapper::map);
